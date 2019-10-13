@@ -8,6 +8,6 @@ Easter Date Calculate (Orthodox and Catholic) - JS, PHP and MySQL/MariaDB soluti
 This is a solution for calculating date of Easter for a given year, 
 or for current year if you ommit function parameter. <br>
 Written for JavaScript, PHP and MySQL/MariaDB. <br>
-Solutions are made using Gaussian algorithm for calculating date for Easter. <br>
+Solutions are made using Gaussian algorithm for calculating date of Easter. <br>
 
 --------------------------------------------------------------------------------------------

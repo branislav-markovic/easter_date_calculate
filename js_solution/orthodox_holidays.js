@@ -1,4 +1,4 @@
-/* in progress ....  */
+/* in progress ......... */
 
 function dateEasterCalculate(year = new Date().getFullYear()) {
 	//year must contain 4 digits
@@ -124,27 +124,36 @@ function getHolidayDate(ortEaster, numOfDays, sign = false, setDay = false) {
 	}
 	
 	if (setDay) {
+		var currentDay = ortDate.getDay();
+		var diff;
+		
 		switch(setDay) {
 			case "mitrovdan":
 			case "miholjdan":
-				var currentDay = ortDate.getDay();
-				alert(currentDay);
 				if (currentDay != 6) {
-					var diff = 6 - currentDay;
+					diff = 6 - currentDay;
 					
 					ortDate.setDate(ortDate.getDate() + diff);
 				}
 				
-				break;
+			break;
+			case "teodor":
+				diff = 5;
+				ortDate.setDate(ortDate.getDate() + diff);
+			break;
+			case "oci":
+				ortDate.setDate(ortDate.getDate() - currentDay);
+			break;
+				
 		}
 	}
 	
 	return ortDate.setDate(ortDate.getDate() - numOfDays);
 }
 
-function holidaysDateCalc() {
+function holidaysDateCalc(year = new Date().getFullYear()) {
 	//get orthodox easter date
-	let ortEaster = dateEasterCalculate().orthodox;
+	let ortEaster = dateEasterCalculate(year).orthodox;
 	var numOfDays;
 	
 	//holiday => Cveti
@@ -175,7 +184,7 @@ function holidaysDateCalc() {
 	numOfDays = 2;
 	var vaskrsniUtorak = getHolidayDate(ortEaster, numOfDays, true);
 	
-	//holiday => Spasovdan @@@@@@@@@@@@@@@@@@@@@@ -- provera cetvrtak @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//holiday => Spasovdan
 	numOfDays = 39;
 	var spasovdan = getHolidayDate(ortEaster, numOfDays, true);
 	
@@ -184,17 +193,12 @@ function holidaysDateCalc() {
 	var duhovi = getHolidayDate(ortEaster, numOfDays, true);
 	
 	//holiday => Duhovski ponedeljak
-	numOfDays = 50;
-	var duhovskiPonedeljak = getHolidayDate(ortEaster, numOfDays, true);
+	numOfDays = 1;
+	var duhovskiPonedeljak = getHolidayDate(duhovi, numOfDays, true);
 	
 	//holiday => Duhovski utorak
-	numOfDays = 51;
-	var duhovskiUtorak = getHolidayDate(ortEaster, numOfDays, true);
-	
-	//holiday => Todorova subota
-	//prva subota vaskrsnjeg posta
-	numOfDays = 43;
-	var teodorovaSubota = getHolidayDate(ortEaster, numOfDays);
+	numOfDays = 2;
+	var duhovskiUtorak = getHolidayDate(duhovi, numOfDays, true);
 	
 	//holiday => Prvo bdenije
 	numOfDays = 11; //sreda
@@ -208,13 +212,17 @@ function holidaysDateCalc() {
 	numOfDays = 48;
 	var velikiPost = getHolidayDate(ortEaster, numOfDays);
 	
+	//holiday => Teodorova subota
+	numOfDays = 0;
+	var teodorovaSubota = getHolidayDate(velikiPost, numOfDays, false, "teodor");
+	
 	//holiday => Bele poklade
-	numOfDays = 49;
-	var belePoklade = getHolidayDate(ortEaster, numOfDays);
+	numOfDays = 1;
+	var belePoklade = getHolidayDate(velikiPost, numOfDays);
 	
 	//holiday => Mesne poklade
-	numOfDays = 56;
-	var mesnePoklade = getHolidayDate(ortEaster, numOfDays);
+	numOfDays = 8;
+	var mesnePoklade = getHolidayDate(velikiPost, numOfDays);
 	
 	//holiday => Petrovske poklade
 	numOfDays = 7;
@@ -238,11 +246,18 @@ function holidaysDateCalc() {
 	var mitrovdan = new Date(ortEaster.getFullYear() + "-11-08");
 	var mitrovskeZadusnice = getHolidayDate(mitrovdan, numOfDays, false, "mitrovdan");
 	
-	/*
-    Оци – недеља уочи Божића
-    Материце – недеља која претходи Оцима
-    Детинци – недеља која претходи Материцама
-	*/
+	//holiday => Oci
+	numOfDays = 0; 
+	var bozic = new Date(ortEaster.getFullYear() + "-01-07");
+	var oci = getHolidayDate(bozic, numOfDays, false, "oci");
+	
+	//holiday => Materice
+	numOfDays = 7; 
+	var materice = getHolidayDate(oci, numOfDays);
+	
+	//holiday => Detinci
+	numOfDays = 7; 
+	var detinci = getHolidayDate(materice, numOfDays);
 	
 	return {
 		"cveti" : new Date(cveti),
@@ -266,8 +281,10 @@ function holidaysDateCalc() {
 		"zadusnice" : new Date(zadusnice),
 		"duhovskeZadusnice" : new Date(duhovskeZadusnice),
 		"miholjskeZadusnice" : new Date(miholjskeZadusnice),
-		"mitrovskeZadusnice" : new Date(mitrovskeZadusnice)
-		
+		"mitrovskeZadusnice" : new Date(mitrovskeZadusnice),
+		"oci" : new Date(oci),
+		"materice" : new Date(materice),
+		"detinci" : new Date(detinci)
 	};
 }
 

@@ -10,4 +10,6 @@ or for current year if you ommit function parameter. <br>
 Written for JavaScript, PHP and MySQL/MariaDB. <br>
 Solutions are made using Gaussian algorithm for calculating date of Easter. <br>
 
+<strong>Orthodox -> holiday variations (v1.0 branch) => In progress.........</strong>
+
 --------------------------------------------------------------------------------------------
